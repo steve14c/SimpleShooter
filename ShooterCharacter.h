@@ -24,6 +24,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	UFUNCTION(BlueprintPure)
+	bool isDead() const;
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -53,6 +56,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	float Health;
+
+	bool Dead;
 	
 
 

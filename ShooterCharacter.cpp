@@ -47,6 +47,12 @@ void AShooterCharacter::BeginPlay()
 	Gun -> AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	Gun -> SetOwner(this);
 	Health = MaxHealth;
+	Dead = false;
+}
+
+bool AShooterCharacter::isDead() const
+{
+	return Dead;
 }
 
 // Called every frame
@@ -74,10 +80,13 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) 
 {
+	if(Dead)
+		return 0;
 	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	DamageApplied = FMath::Min(Health, DamageApplied);
 	Health -= DamageApplied;
-	UE_LOG(LogTemp, Warning, TEXT("Health Remaining: %f"), Health);
+	if(Health == 0)
+		Dead = true;
 	return DamageApplied;
 
 }
