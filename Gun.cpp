@@ -37,7 +37,10 @@ void AGun::PullTrigger()
 	DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
 
 	FHitResult Hit;
-	bool bSuccess = GetWorld() -> LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+	bool bSuccess = GetWorld() -> LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
 	if(bSuccess)
 	{
 		FVector ShotDirection = -Rotation.Vector();
