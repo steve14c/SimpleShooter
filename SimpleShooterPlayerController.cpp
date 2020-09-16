@@ -13,9 +13,19 @@ void ASimpleShooterPlayerController::GameHasEnded(class AActor* EndGameFocus, bo
     if(bIsWinner)
         EndScreen = CreateWidget(this, WinScreenClass);
     else
+    {
         EndScreen = CreateWidget(this, LoseScreenClass);
+    }
     if(EndScreen)
         EndScreen -> AddToViewport();
+    HUDScreen -> RemoveFromViewport();
     GetWorldTimerManager().SetTimer(RestartTimer, this, &ASimpleShooterPlayerController::RestartLevel, RestartDelay);
 
+}
+
+void ASimpleShooterPlayerController::BeginPlay() 
+{
+    Super::BeginPlay();
+    HUDScreen = CreateWidget(this, HUDScreenClass);
+    HUDScreen -> AddToViewport();
 }

@@ -39,6 +39,11 @@ void AShooterCharacter::Shoot()
 	Gun -> PullTrigger();
 }
 
+float AShooterCharacter::GetHealth() const
+{
+	return Health / MaxHealth;
+}
+
 // Called when the game starts or when spawned
 void AShooterCharacter::BeginPlay()
 {
