@@ -44,15 +44,22 @@ private:
 	void MoveRight(float AxisValue);
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
+	void SpawnWeapons();
+	void SwitchWeapon();
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 10.0;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AGun> GunClass;
+	TSubclassOf<AGun> PrimaryGunClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AGun> SecondaryGunClass;
 
 	UPROPERTY()
-	AGun* Gun;
+	AGun* Gun[2];
+
+	int32 ActiveGun;
 
 	UPROPERTY(EditDefaultsOnly)
 	float MaxHealth = 100;

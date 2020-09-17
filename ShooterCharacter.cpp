@@ -34,9 +34,39 @@ void AShooterCharacter::LookRightRate(float AxisValue)
 	AddControllerYawInput(AxisValue * RotationRate * GetWorld() -> GetDeltaSeconds());
 }
 
+void AShooterCharacter::SpawnWeapons() 
+{
+	Gun[0] = GetWorld() -> SpawnActor<AGun>(PrimaryGunClass);
+	if(Gun[0])
+	{
+		Gun[0] -> AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket0"));
+		Gun[0] -> SetOwner(this);
+	}
+	Gun[1] = GetWorld() -> SpawnActor<AGun>(SecondaryGunClass);
+	if(Gun[1])
+	{
+		Gun[1] -> AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket1"));
+		Gun[1] -> SetOwner(this);
+		Gun[1] -> SetActorHiddenInGame(true);
+	}
+	GetMesh() -> HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
+	ActiveGun = 0;
+}
+
+void AShooterCharacter::SwitchWeapon() 
+{
+	if(Gun[ActiveGun])
+		Gun[ActiveGun] -> SetActorHiddenInGame(true);
+	ActiveGun = 1 - ActiveGun;
+	if(Gun[ActiveGun])
+		Gun[ActiveGun] -> SetActorHiddenInGame(false);
+
+}
+
 void AShooterCharacter::Shoot() 
 {
-	Gun -> PullTrigger();
+	if(Gun[ActiveGun])
+		Gun[ActiveGun] -> PullTrigger();
 }
 
 float AShooterCharacter::GetHealth() const
@@ -48,11 +78,7 @@ float AShooterCharacter::GetHealth() const
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	Gun = GetWorld() -> SpawnActor<AGun>(GunClass);
-	GetMesh() -> HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
-	Gun -> AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
-	Gun -> SetOwner(this);
+	SpawnWeapons();
 	Health = MaxHealth;
 	Dead = false;
 }
@@ -82,6 +108,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent -> BindAxis(TEXT("LookRightRate"), this, &AShooterCharacter::LookRightRate);
 	PlayerInputComponent -> BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent -> BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
+	PlayerInputComponent -> BindAction(TEXT("SwitchWeapon"), EInputEvent::IE_Pressed, this, &AShooterCharacter::SwitchWeapon);
 
 }
 
