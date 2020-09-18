@@ -5,7 +5,6 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
-
 // Sets default values
 AGun::AGun()
 {
@@ -38,7 +37,6 @@ void AGun::PullTrigger()
 	
 	if(GunTrace(Hit, ShotDirection))
 	{
-		DrawDebugPoint(GetWorld(), Hit.Location, 20, FColor::Red, true);
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitFlash, Hit.Location, ShotDirection.Rotation());
 		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), ImpactSound, Hit.Location, FRotator::ZeroRotator, 1.0f, 1.0f, 0.25f);
 		AActor* HitActor = Hit.GetActor();
@@ -73,7 +71,6 @@ bool AGun::GunTrace(FHitResult& Hit, FVector& ShotDirection)
 		return false;
 	GetOwnerController() -> GetPlayerViewPoint(Location, Rotation);
 	FVector End = Location + Rotation.Vector() * MaxRange;
-	DrawDebugCamera(GetWorld(), Location, Rotation, 90, 2, FColor::Red, true);
 
 	ShotDirection = -Rotation.Vector();
 
