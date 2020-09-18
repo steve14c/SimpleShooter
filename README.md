@@ -2,7 +2,7 @@
 
 ### C++ classes for my simple shooter game based on Unreal Engine 4
 
-### Particle System
+### Shooting System with Particle Effects
 ![ScreenShot00003](https://user-images.githubusercontent.com/44939469/93649381-b5f52380-f9c0-11ea-889a-9a8333ad7edd.png)
 
 ### Switch Weapon
