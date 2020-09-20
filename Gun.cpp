@@ -30,7 +30,10 @@ AController* AGun::GetOwnerController() const
 void AGun::PullTrigger() 
 {
 	if(Ammo == 0)
+	{
+		UGameplayStatics::SpawnSoundAttached(OutOfAmmoSound, Mesh, TEXT("OutOfAmmoSoundSocket"));
 		return;
+	}
 	--Ammo;
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
 	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleSoundSocket"));

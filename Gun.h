@@ -40,6 +40,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* ImpactSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* OutOfAmmoSound;
 	
 	UPROPERTY(EditAnywhere)
 	UParticleSystem* MuzzleFlash;
