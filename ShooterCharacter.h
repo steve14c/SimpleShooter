@@ -46,6 +46,7 @@ private:
 	void LookRightRate(float AxisValue);
 	void SpawnWeapons();
 	void SwitchWeapon();
+	void Reload();
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 10.0;
@@ -67,6 +68,12 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	float Health;
 
+	UPROPERTY(EditAnywhere)
+	float ReloadDelay = 3;
+
+	FTimerHandle ReloadTimer;
+
+	UPROPERTY(VisibleAnywhere)
 	bool Dead;
 	
 

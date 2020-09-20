@@ -18,6 +18,8 @@ public:
 
 	void PullTrigger();
 
+	void Reload();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -50,6 +52,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float Damage = 10;
+
+	int32 MaxAmmo = 30;
+	int32 Ammo;
 
 	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
 

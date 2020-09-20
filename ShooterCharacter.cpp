@@ -5,6 +5,7 @@
 #include "Gun.h"
 #include "Components/CapsuleComponent.h"
 #include "SimpleShooterGameModeBase.h"
+#include "TimerManager.h"
 
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -63,6 +64,14 @@ void AShooterCharacter::SwitchWeapon()
 
 }
 
+void AShooterCharacter::Reload() 
+{
+	if(Gun[ActiveGun])
+	{
+		GetWorldTimerManager().SetTimer(ReloadTimer, Gun[ActiveGun], &AGun::Reload, ReloadDelay);
+	}
+}
+
 void AShooterCharacter::Shoot() 
 {
 	if(Gun[ActiveGun])
@@ -109,6 +118,8 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent -> BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent -> BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
 	PlayerInputComponent -> BindAction(TEXT("SwitchWeapon"), EInputEvent::IE_Pressed, this, &AShooterCharacter::SwitchWeapon);
+	PlayerInputComponent -> BindAction(TEXT("Reload"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Reload);
+	
 
 }
 

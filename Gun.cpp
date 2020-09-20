@@ -29,6 +29,9 @@ AController* AGun::GetOwnerController() const
 
 void AGun::PullTrigger() 
 {
+	if(Ammo == 0)
+		return;
+	--Ammo;
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
 	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleSoundSocket"));
 
@@ -49,11 +52,17 @@ void AGun::PullTrigger()
 	
 }
 
+void AGun::Reload() 
+{
+	if(Ammo < MaxAmmo)
+		Ammo = MaxAmmo;
+}
+
 // Called when the game starts or when spawned
 void AGun::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Ammo = MaxAmmo;
 }
 
 // Called every frame
